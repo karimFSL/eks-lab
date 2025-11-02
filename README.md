@@ -10,8 +10,8 @@ eksctl command
 > --node-type t2.micro \
 > --nodes 2
 
-#delete cluster
-eksctl deleter cluster --name demo-cluster
+# delete cluster
+eksctl delete cluster --name demo-cluster
 
 install aws cli
 # Vérifier si AWS CLI est installé
