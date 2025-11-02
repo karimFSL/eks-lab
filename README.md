@@ -10,6 +10,8 @@ eksctl command
 > --node-type t2.micro \
 > --nodes 2
 
+#delete cluster
+eksctl deleter cluster --name demo-cluster
 
 install aws cli
 # Vérifier si AWS CLI est installé
@@ -26,8 +28,9 @@ aws configure
 # Tester la connexion
 aws sts get-caller-identity
 
-
-
+eksctl get cluster --region us-east-1
+% aws eks describe-cluster --name eks-from-eksctl --region us-east-1
+% kubectl get nodes -o wide
 
 # installer kubectl
 # Télécharger kubectl
@@ -53,4 +56,14 @@ kubectl get svc -A
 # Informations sur le cluster
 kubectl cluster-info
 
+# Template
+eksctl utils associate-iam-oidc-provider \
+    --region region-code \
+    --cluster <cluter-name> \
+    --approve
 
+# Replace with region & cluster name
+eksctl utils associate-iam-oidc-provider \
+    --region us-east-1 \
+    --cluster eksdemo1 \
+    --approve
