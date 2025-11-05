@@ -69,3 +69,6 @@ terraform workspace select default
 
 
 terraform import pour modifier instance en cours plutôt que de créer
+
+
+terraform apply --auto-approve. 

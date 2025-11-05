@@ -1,0 +1,13 @@
+  source:
+    repoURL: https://github.com/chauhan-himani/kube_manifest
+    targetRevision: HEAD
+    path: manifest
+  destination: 
+    server: https://kubernetes.default.svc
+    namespace: myapp
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true

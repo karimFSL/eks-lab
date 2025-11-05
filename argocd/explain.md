@@ -1,0 +1,1 @@
+run kubectl apply -f manifest-argo-sync.yaml

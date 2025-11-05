@@ -67,3 +67,13 @@ eksctl utils associate-iam-oidc-provider \
     --region us-east-1 \
     --cluster eksdemo1 \
     --approve
+
+
+# configure kubectl avec EKS
+aws eks update-kubeconfig --region <votre-region> --name <nom-de-votre-cluster>
+
+# change cluster
+kubectl config use-context <nom-contexte>
+
+
+kubectl -n argocd edit ...
