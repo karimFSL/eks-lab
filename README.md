@@ -1,19 +1,23 @@
-# eks-lab
-eks lab
+# EKS Lab
 
-eksctl command
- eksctl create cluster \
-> --name test-cluster \
-> --version 1.17 \
-> --region eu-west-3 \
-> --nodegroup-name linux-nodes \
-> --node-type t2.micro \
-> --nodes 2
+Ce repository contient des commandes et procédures pour gérer des clusters Amazon EKS.
 
-# delete cluster
-eksctl delete cluster --name demo-cluster
+## Table des matières
+- [Prérequis](#prérequis)
+- [Installation des outils](#installation-des-outils)
+- [Gestion des clusters EKS](#gestion-des-clusters-eks)
+- [Configuration kubectl](#configuration-kubectl)
+- [Commandes utiles](#commandes-utiles)
 
-install aws cli
+## Prérequis
+
+- Un compte AWS configuré
+- Accès à un terminal Linux/Unix
+
+## Installation des outils
+
+### AWS CLI
+```bash
 # Vérifier si AWS CLI est installé
 aws --version
 
@@ -23,57 +27,108 @@ sudo apt install unzip -y
 unzip awscliv2.zip
 sudo ./aws/install
 
-# commandes utiles
+# Configurer AWS CLI
 aws configure
+
 # Tester la connexion
 aws sts get-caller-identity
+```
 
-eksctl get cluster --region us-east-1
-% aws eks describe-cluster --name eks-from-eksctl --region us-east-1
-% kubectl get nodes -o wide
-
-# installer kubectl
+### kubectl
+```bash
 # Télécharger kubectl
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
 # Rendre le binaire exécutable
 chmod +x kubectl
+
 # Déplacer vers /usr/local/bin
 sudo mv kubectl /usr/local/bin/
+
 # Vérifier l'installation
 kubectl version --client
+```
 
+## Gestion des clusters EKS
 
-# Configurer kubectl pour accéder à votre cluster EKS
+### Créer un cluster
+```bash
+eksctl create cluster \
+  --name test-cluster \
+  --version 1.17 \
+  --region eu-west-3 \
+  --nodegroup-name linux-nodes \
+  --node-type t2.micro \
+  --nodes 2
+```
+
+### Supprimer un cluster
+```bash
+eksctl delete cluster --name demo-cluster
+```
+
+### Lister les clusters
+```bash
+eksctl get cluster --region us-east-1
+```
+
+### Décrire un cluster
+```bash
+aws eks describe-cluster --name eks-from-eksctl --region us-east-1
+```
+
+## Configuration kubectl
+
+### Configurer l'accès au cluster
+```bash
+# Template
+aws eks update-kubeconfig --region <votre-region> --name <nom-de-votre-cluster>
+
+# Exemple
 aws eks update-kubeconfig --region eu-west-3 --name demo-cluster
-# Vérifier la connexion
-kubectl get nodes
+```
 
+### Changer de contexte
+```bash
+kubectl config use-context <nom-contexte>
+```
 
-# Voir tous les pods système
-kubectl get pods -A
-# Voir les services
-kubectl get svc -A
-# Informations sur le cluster
-kubectl cluster-info
-
+### Associer un fournisseur OIDC IAM
+```bash
 # Template
 eksctl utils associate-iam-oidc-provider \
     --region region-code \
-    --cluster <cluter-name> \
+    --cluster <cluster-name> \
     --approve
 
-# Replace with region & cluster name
+# Exemple
 eksctl utils associate-iam-oidc-provider \
     --region us-east-1 \
     --cluster eksdemo1 \
     --approve
+```
 
+## Commandes utiles
 
-# configure kubectl avec EKS
-aws eks update-kubeconfig --region <votre-region> --name <nom-de-votre-cluster>
+### Vérifier les nœuds
+```bash
+kubectl get nodes
+kubectl get nodes -o wide
+```
 
-# change cluster
-kubectl config use-context <nom-contexte>
+### Vérifier les ressources du cluster
+```bash
+# Voir tous les pods système
+kubectl get pods -A
 
+# Voir les services
+kubectl get svc -A
 
-kubectl -n argocd edit ...
+# Informations sur le cluster
+kubectl cluster-info
+```
+
+### Éditer des ressources
+```bash
+kubectl -n argocd edit <ressource>
+```

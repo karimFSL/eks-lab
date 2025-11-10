@@ -14,9 +14,12 @@ resource "aws_instance" "my_ec2_instance" {
     
     tags = {
         Name = "terraform test"
+        Environment = var.environment
+        ManagedBy   = "Terraform"
     }
-}
 
-output "public_ip" {
-    value = aws_instance.my_ec2_instance.public_ip
+    # provisioner "local-exec" {
+    #     when    = destroy
+    #     command = "echo 'destruction de l'instance ${self.public_ip}' > ip_address.txt"
+    # }
 }
