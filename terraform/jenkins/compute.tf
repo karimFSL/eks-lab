@@ -1,6 +1,6 @@
 resource "aws_instance" "my_ec2_instance" {
   ami                    = "ami-02cbf157cb22bb5b9"
-  instance_type          = "t2.micro"
+  instance_type          = "t3.micro"
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
   key_name               = var.key_name # Pour SSH
 
