@@ -1,0 +1,35 @@
+[Unit]
+Description=JFrog Artifactory OSS
+Documentation=https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory
+After=network.target
+
+[Service]
+Type=forking
+User=artifactory
+Group=artifactory
+
+# Variables d'environnement
+Environment="JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64"
+Environment="ARTIFACTORY_HOME=/opt/artifactory"
+
+# Commandes de gestion du service
+ExecStart=/opt/artifactory/app/bin/artifactory.sh start
+ExecStop=/opt/artifactory/app/bin/artifactory.sh stop
+
+# Configuration de redémarrage
+Restart=on-failure
+RestartSec=10
+
+# Limites système
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Répertoires de travail
+WorkingDirectory=/opt/artifactory
+
+# Sécurité
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
